@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — Plasive Technologies</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:       #08080c;
+      --text:     #eaf4ff;
+      --text-m:   #7aabcc;
+      --text-xs:  #3a6480;
+      --border:   rgba(80, 140, 200, 0.13);
+      --accent:   #3080ff;
+      --glass-bg: rgba(8, 14, 24, 0.62);
+      --blur:     blur(18px) saturate(1.5);
+      --font:     'Outfit', sans-serif;
+      --ease:     cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      padding: 0;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -180px; right: -130px;
+      width: 560px; height: 560px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(48,128,255,0.10) 0%, transparent 68%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Header ── */
+    .pp-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 6vw;
+      background: rgba(8, 8, 12, 0.80);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-size: 11.5px;
+      font-weight: 500;
+      letter-spacing: 0.26em;
+      color: var(--text);
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+
+    .pp-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-m);
+      text-decoration: none;
+      padding: 6px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .pp-back:hover { color: var(--text); border-color: rgba(80,140,200,0.30); }
+
+    /* ── Content ── */
+    .pp-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 64px 6vw 96px;
+    }
+
+    .pp-eyebrow {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .pp-title {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1.10;
+      letter-spacing: -0.016em;
+      margin-bottom: 12px;
+    }
+
+    .pp-date {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-xs);
+      margin-bottom: 56px;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── TOC ── */
+    .pp-toc {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px 26px;
+      margin-bottom: 52px;
+    }
+
+    .pp-toc-title {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--text-xs);
+      margin-bottom: 14px;
+    }
+
+    .pp-toc ol {
+      list-style: none;
+      counter-reset: toc;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .pp-toc li { counter-increment: toc; }
+
+    .pp-toc a {
+      font-size: 12.5px;
+      font-weight: 300;
+      color: var(--text-m);
+      text-decoration: none;
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      transition: color 0.2s;
+    }
+    .pp-toc a::before {
+      content: counter(toc, decimal-leading-zero);
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--text-xs);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+    .pp-toc a:hover { color: var(--text); }
+
+    /* ── Sections ── */
+    .pp-section {
+      margin-bottom: 48px;
+      padding-top: 12px;
+    }
+
+    .pp-section-num {
+      font-size: 9px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .pp-section h2 {
+      font-size: clamp(16px, 2.4vw, 22px);
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: -0.005em;
+      line-height: 1.25;
+      margin-bottom: 18px;
+    }
+
+    .pp-section p,
+    .pp-section li {
+      font-size: 13px;
+      font-weight: 300;
+      color: var(--text-m);
+      line-height: 1.78;
+    }
+
+    .pp-section p + p { margin-top: 12px; }
+
+    .pp-section ul,
+    .pp-section ol {
+      padding-left: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pp-section ul li {
+      padding-left: 20px;
+      position: relative;
+    }
+    .pp-section ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
+
+    .pp-section ol { counter-reset: ol; }
+    .pp-section ol li { counter-increment: ol; padding-left: 24px; position: relative; }
+    .pp-section ol li::before {
+      content: counter(ol) '.';
+      position: absolute;
+      left: 0;
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-xs);
+      top: 3px;
+    }
+
+    .pp-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── Info box ── */
+    .pp-infobox {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 22px;
+      margin-top: 18px;
+    }
+
+    .pp-infobox p { font-size: 12px; }
+
+    .pp-infobox strong {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* ── Footer ── */
+    .pp-footer {
+      border-top: 1px solid var(--border);
+      margin-top: 64px;
+      padding: 28px 6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .pp-footer-text {
+      font-size: 11px;
+      font-weight: 300;
+      color: var(--text-xs);
+    }
+
+    .pp-footer a {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .pp-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .pp-wrap { padding: 40px 5vw 72px; }
+      .pp-toc { padding: 16px 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="pp-header">
+    <a href="index.html" class="logo">PLASIVE</a>
+    <a href="index.html" class="pp-back">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+      Torna al sito
+    </a>
+  </header>
+
+  <main class="pp-wrap">
+
+    <span class="pp-eyebrow">Legal</span>
+    <h1 class="pp-title">Privacy Policy</h1>
+    <p class="pp-date">Ultimo aggiornamento: 14 maggio 2026</p>
+
+    <nav class="pp-toc" aria-label="Indice">
+      <p class="pp-toc-title">Indice</p>
+      <ol>
+        <li><a href="#titolare">Titolare del Trattamento</a></li>
+        <li><a href="#dati">Dati Raccolti</a></li>
+        <li><a href="#finalita">Finalità e Base Giuridica</a></li>
+        <li><a href="#modalita">Modalità di Trattamento</a></li>
+        <li><a href="#conservazione">Periodo di Conservazione</a></li>
+        <li><a href="#destinatari">Destinatari dei Dati</a></li>
+        <li><a href="#diritti">Diritti dell'Interessato</a></li>
+        <li><a href="#cookie">Cookie Policy</a></li>
+        <li><a href="#contatti">Contatti</a></li>
+      </ol>
+    </nav>
+
+    <section class="pp-section" id="titolare">
+      <span class="pp-section-num">01 — Titolare</span>
+      <h2>Titolare del Trattamento</h2>
+      <p>Il Titolare del trattamento dei dati personali raccolti tramite il sito <strong>plasive.tech</strong> è:</p>
+      <div class="pp-infobox">
+        <p><strong>Plasive Technologies S.r.l.</strong><br>
+        Via Cesare Battisti 26, 40123 Bologna (BO), Italia<br>
+        Codice Fiscale e P.IVA: 03736701206<br>
+        Email: <a href="mailto:info@plasive.tech" style="color:var(--accent);text-decoration:none;">info@plasive.tech</a></p>
+      </div>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="dati">
+      <span class="pp-section-num">02 — Dati</span>
+      <h2>Dati Raccolti</h2>
+      <p>Durante la navigazione sul sito e l'utilizzo dei nostri servizi, possono essere raccolte le seguenti categorie di dati:</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:400;">Dati di navigazione</strong> — indirizzo IP, tipo di browser, sistema operativo, pagine visitate, orari di accesso. Questi dati sono necessari al funzionamento tecnico del sito e non vengono conservati oltre il tempo strettamente necessario.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Dati forniti volontariamente</strong> — nome, cognome, indirizzo email, numero di telefono e qualsiasi altra informazione trasmessa tramite il modulo di contatto o via email a info@plasive.tech.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Dati tecnici</strong> — cookie tecnici essenziali (vedere sezione Cookie Policy).</li>
+      </ul>
+      <p>Non raccogliamo dati personali di categorie particolari (art. 9 GDPR), né dati relativi a condanne penali.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="finalita">
+      <span class="pp-section-num">03 — Finalità</span>
+      <h2>Finalità e Base Giuridica</h2>
+      <p>I dati personali sono trattati per le seguenti finalità:</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:400;">Gestione delle richieste di contatto</strong> — risposta alle comunicazioni inviate tramite email o modulo contatto. Base giuridica: esecuzione di misure precontrattuali (art. 6, par. 1, lett. b GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Funzionamento tecnico del sito</strong> — log di sistema, sicurezza informatica, prevenzione di attività fraudolente. Base giuridica: legittimo interesse del Titolare (art. 6, par. 1, lett. f GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Adempimento di obblighi legali</strong> — rispetto di normative fiscali, contabili e legali applicabili. Base giuridica: obbligo legale (art. 6, par. 1, lett. c GDPR).</li>
+      </ul>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="modalita">
+      <span class="pp-section-num">04 — Modalità</span>
+      <h2>Modalità di Trattamento</h2>
+      <p>Il trattamento dei dati avviene mediante strumenti informatici e telematici, con modalità organizzative e logiche strettamente correlate alle finalità indicate. I dati sono trattati esclusivamente da personale autorizzato, adeguatamente istruito, e da eventuali responsabili del trattamento designati ai sensi dell'art. 28 GDPR.</p>
+      <p>Adottiamo misure tecniche e organizzative adeguate per garantire la sicurezza, l'integrità e la riservatezza dei dati personali, prevenendo accessi non autorizzati, perdita o divulgazione accidentale.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="conservazione">
+      <span class="pp-section-num">05 — Conservazione</span>
+      <h2>Periodo di Conservazione</h2>
+      <p>I dati personali sono conservati per il tempo strettamente necessario al raggiungimento delle finalità per cui sono stati raccolti:</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:400;">Dati di contatto</strong> — fino a 24 mesi dal termine della relazione precontrattuale o contrattuale, salvo obblighi di legge che richiedano periodi più lunghi.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Dati di navigazione</strong> — non oltre 30 giorni, salvo esigenze di sicurezza informatica.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Dati per adempimenti fiscali e contabili</strong> — 10 anni, come previsto dalla normativa italiana.</li>
+      </ul>
+      <p>Alla scadenza del periodo di conservazione i dati saranno cancellati o resi anonimi in modo irreversibile.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="destinatari">
+      <span class="pp-section-num">06 — Destinatari</span>
+      <h2>Destinatari dei Dati</h2>
+      <p>I dati personali non sono ceduti a terzi per finalità di marketing. Possono essere comunicati a:</p>
+      <ul>
+        <li>Fornitori di servizi tecnici e infrastrutturali (hosting, email, CDN) nominati responsabili del trattamento ai sensi dell'art. 28 GDPR, localizzati nell'UE o in paesi con decisione di adeguatezza della Commissione Europea.</li>
+        <li>Consulenti legali, fiscali e contabili, nei limiti strettamente necessari.</li>
+        <li>Autorità pubbliche, nei casi previsti dalla legge.</li>
+      </ul>
+      <p>Non trasferiamo dati a paesi terzi privi di adeguate garanzie ai sensi del Capo V GDPR.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="diritti">
+      <span class="pp-section-num">07 — Diritti</span>
+      <h2>Diritti dell'Interessato</h2>
+      <p>In qualità di interessato, hai il diritto di:</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:400;">Accesso</strong> — ottenere conferma dell'esistenza di dati che ti riguardano e una copia degli stessi (art. 15 GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Rettifica</strong> — richiedere la correzione di dati inesatti o incompleti (art. 16 GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Cancellazione</strong> — ottenere la cancellazione dei dati quando non più necessari o in caso di revoca del consenso (art. 17 GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Limitazione</strong> — richiedere la limitazione del trattamento nei casi previsti dall'art. 18 GDPR.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Portabilità</strong> — ricevere i tuoi dati in formato strutturato e leggibile da macchina (art. 20 GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Opposizione</strong> — opporti al trattamento basato sul legittimo interesse del Titolare (art. 21 GDPR).</li>
+        <li><strong style="color:var(--text);font-weight:400;">Reclamo</strong> — proporre reclamo all'Autorità Garante per la Protezione dei Dati Personali (<a href="https://www.garanteprivacy.it" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">www.garanteprivacy.it</a>).</li>
+      </ul>
+      <p>Per esercitare i tuoi diritti, scrivi a <a href="mailto:info@plasive.tech" style="color:var(--accent);text-decoration:none;">info@plasive.tech</a>. Risponderemo entro 30 giorni.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="cookie">
+      <span class="pp-section-num">08 — Cookie</span>
+      <h2>Cookie Policy</h2>
+      <p>Il sito utilizza esclusivamente cookie tecnici essenziali, necessari al funzionamento della pagina. Non utilizziamo cookie di profilazione, di tracciamento o di terze parti per finalità pubblicitarie.</p>
+      <ul>
+        <li><strong style="color:var(--text);font-weight:400;">plasive_cookie</strong> — cookie di sessione/localStorage che memorizza il consenso al banner informativo. Durata: persistente. Finalità: tecnica.</li>
+        <li><strong style="color:var(--text);font-weight:400;">Font Google</strong> — il sito carica il font Outfit da Google Fonts. Google potrebbe raccogliere dati di navigazione secondo la propria <a href="https://policies.google.com/privacy" target="_blank" rel="noopener" style="color:var(--accent);text-decoration:none;">Privacy Policy</a>. In alternativa, è possibile bloccare le richieste tramite estensioni del browser.</li>
+      </ul>
+      <p>Poiché utilizziamo solo cookie tecnici, non è richiesto il consenso ai sensi dell'art. 122 D.Lgs. 196/2003 (Codice Privacy) come modificato dal D.Lgs. 101/2018.</p>
+    </section>
+
+    <div class="pp-divider"></div>
+
+    <section class="pp-section" id="contatti">
+      <span class="pp-section-num">09 — Contatti</span>
+      <h2>Contatti</h2>
+      <p>Per qualsiasi domanda relativa al trattamento dei tuoi dati personali o per esercitare i tuoi diritti, contattaci:</p>
+      <div class="pp-infobox">
+        <p><strong>Plasive Technologies S.r.l.</strong><br>
+        Via Cesare Battisti 26, 40123 Bologna (BO), Italia<br>
+        Email: <a href="mailto:info@plasive.tech" style="color:var(--accent);text-decoration:none;">info@plasive.tech</a></p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pp-footer">
+    <span class="pp-footer-text">© 2026 Plasive Technologies S.r.l. — P.IVA 03736701206</span>
+    <a href="index.html">← Torna al sito</a>
+  </footer>
+
+</body>
+</html>
