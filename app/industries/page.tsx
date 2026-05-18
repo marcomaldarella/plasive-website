@@ -13,9 +13,11 @@ const industries = [
     description: 'From multi-terabyte remote sensing analytics to nutritional labels, we protect the full farm-to-fork chain.',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a9 9 0 0 1 9 9c0 4-2.5 7.5-6 9"/><path d="M12 2a9 9 0 0 0-9 9c0 4 2.5 7.5 6 9"/>
-        <path d="M12 2v18"/><path d="M5 9h14"/>
-        <path d="M3 15h6"/><path d="M15 15h6"/>
+        <path d="M12 22V12"/>
+        <path d="M12 12a8 8 0 0 0-8-8c0 4.5 3.5 8 8 8z"/>
+        <path d="M12 12a8 8 0 0 1 8-8c0 4.5-3.5 8-8 8z"/>
+        <path d="M12 17a5 5 0 0 0-5-5c0 3 2 5 5 5z"/>
+        <line x1="5" y1="22" x2="19" y2="22"/>
       </svg>
     ),
     features: [
@@ -63,8 +65,10 @@ const industries = [
     description: 'Low-latency ingest paired with data lakes so every stream is captured, searchable, and monetizable.',
     icon: (
       <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="2" y="4" width="20" height="14" rx="2"/><polygon points="10 9 15 12 10 15 10 9" fill="currentColor" stroke="none"/>
-        <line x1="8" y1="20" x2="16" y2="20"/>
+        <path d="M2 10.5A10 10 0 0 1 12 2a10 10 0 0 1 10 8.5"/>
+        <path d="M5 13A7 7 0 0 1 12 6a7 7 0 0 1 7 7"/>
+        <path d="M8.5 15.5A3.5 3.5 0 0 1 12 12a3.5 3.5 0 0 1 3.5 3.5"/>
+        <circle cx="12" cy="20" r="1.5" fill="currentColor" stroke="none"/>
       </svg>
     ),
     features: [
@@ -199,6 +203,7 @@ export default function IndustriesPage() {
         @media (max-width: 768px) {
           .ind-page { padding-top: 72px; }
           .ind-main { padding: 0 14px; }
+          .ind-back { left: 14px; }
           .ind-grid { grid-template-columns: 1fr; gap: 10px; }
           .ind-card { padding: 20px; }
           .ind-features { grid-template-columns: 1fr; }
@@ -206,19 +211,16 @@ export default function IndustriesPage() {
         }
       `}</style>
 
-      {/* Top-left: back nav */}
+      {/* Top-left: Plasive. brand identico al main site */}
       <Link href="/" className="ind-back">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M6.5 2L3.5 5l3 3"/>
-        </svg>
-        <span>Plasive</span>
+        <span className="logo" style={{ letterSpacing: '0.06em', textTransform: 'none' }}>Plasive.</span>
         <span className="ind-breadcrumb-sep" />
-        <span style={{ color: 'var(--text)', opacity: 1 }}>Industries</span>
+        <span style={{ fontFamily: 'var(--font)', fontSize: '8px', fontWeight: 400, letterSpacing: '0.10em', textTransform: 'uppercase' as const, color: 'var(--text-m)' }}>Industries</span>
       </Link>
 
-      {/* Top-right: header pill — reuses existing .site-header + .logo classes */}
+      {/* Top-right: contact link */}
       <header className="site-header">
-        <a href="mailto:info@plasive.tech" className="logo" style={{ letterSpacing: '0.04em', fontWeight: 400, opacity: 0.75 }}>
+        <a href="mailto:info@plasive.tech" className="logo" style={{ letterSpacing: '0.04em', fontWeight: 400, opacity: 0.6 }}>
           Contact Us
         </a>
       </header>

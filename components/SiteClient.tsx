@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import * as THREE from 'three';
+import gsap from 'gsap';
 import type { HomepageContent } from '@/types/content';
 
 /* ═══════════════════════════════════════════════════════════════════════
@@ -10,7 +11,7 @@ import type { HomepageContent } from '@/types/content';
 type RGB = [number, number, number];
 interface FluidConfig { iterations: number; cursorSize: number; mouseForce: number; resolution: number; dyeDissipation: number; velocityDissipation: number; c1: RGB; c2: RGB; c3: RGB; }
 interface GhostConfig { ax: number; ay: number; fx: number; fy: number; ph: number; cr: RGB; ca: RGB; ci: number; }
-interface SharedState { currentX: number; }
+interface SharedState { currentX: number; activeSection: number; }
 
 /* ═══════════════════════════════════════════════════════════════════════
    GLSL SHADERS
@@ -101,7 +102,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
       cookieAccept?.addEventListener('click', () => { localStorage.setItem('plasive_cookie','1'); cookieBanner.classList.add('hidden'); });
     }
 
-    const shared: SharedState = { currentX: 0 };
+    const shared: SharedState = { currentX: 0, activeSection: 0 };
     let fluidHandle: { resize: () => void; cleanup: () => void } | null = null;
     try { fluidHandle = setupFluid(shared); } catch { /* WebGL unavailable */ }
 
@@ -129,7 +130,8 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
 
     function setTransform(val:number){ scroller.style.transform=isVertical?`translateY(${-val}px)`:`translateX(${-val}px)`; }
     function updateProgress(val:number){ const max=maxScroll(); progressLine.style.transform=`scaleX(${max>0?val/max:0})`; }
-    function updateBookmarks(idx:number){ activeIdx=Math.max(0,Math.min(SECTIONS-1,idx)); bookmarksEl.forEach((bm,i)=>{ bm.classList.remove('active','visited'); if(i===activeIdx) bm.classList.add('active'); else if(i<activeIdx) bm.classList.add('visited'); }); }
+    let onSectionEnter: ((idx: number) => void) | null = null;
+    function updateBookmarks(idx:number){ activeIdx=Math.max(0,Math.min(SECTIONS-1,idx)); bookmarksEl.forEach((bm,i)=>{ bm.classList.remove('active','visited'); if(i===activeIdx) bm.classList.add('active'); else if(i<activeIdx) bm.classList.add('visited'); }); onSectionEnter?.(activeIdx); }
 
     function animate(){ if(isVertical){ currentY=lerp(currentY,targetY,LERP); shared.currentX=currentY; setTransform(currentY); updateProgress(currentY); const n=Math.round(currentY/window.innerHeight); if(n!==activeIdx) updateBookmarks(n); if(Math.abs(targetY-currentY)<0.18){currentY=targetY;setTransform(currentY);updateProgress(currentY);scrollRafId=null;return;} } else { currentX=lerp(currentX,targetX,LERP); shared.currentX=currentX; setTransform(currentX); updateProgress(currentX); const n=Math.round(currentX/window.innerWidth); if(n!==activeIdx) updateBookmarks(n); if(Math.abs(targetX-currentX)<0.18){currentX=targetX;setTransform(currentX);updateProgress(currentX);scrollRafId=null;return;} } scrollRafId=requestAnimationFrame(animate); }
     function startAnimate(){ if(!scrollRafId) scrollRafId=requestAnimationFrame(animate); }
@@ -160,9 +162,75 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
     const layoutToggle=document.getElementById('layout-toggle') as HTMLButtonElement|null;
     if(layoutToggle){ layoutToggle.addEventListener('click',()=>{ isVertical=!isVertical; document.body.classList.toggle('scroll-v',isVertical); layoutToggle.classList.toggle('active',isVertical); layoutToggle.title=isVertical?'Switch to horizontal scroll':'Switch to vertical scroll'; (layoutToggle.querySelector('.layout-icon-v') as HTMLElement).style.display=isVertical?'none':'block'; (layoutToggle.querySelector('.layout-icon-h') as HTMLElement).style.display=isVertical?'block':'none'; currentX=isVertical?0:activeIdx*window.innerWidth; currentY=isVertical?activeIdx*window.innerHeight:0; targetX=currentX;targetY=currentY; setTransform(isVertical?currentY:currentX); }); }
 
+    /* ── GSAP section animations ── */
+    const EASE_TITLE = 'cubic-bezier(0.16,1,0.3,1)';
+    const EASE_CARD  = 'cubic-bezier(0.4,0,0.2,1)';
+    const EASE_FADE  = 'cubic-bezier(0.25,0.46,0.45,0.94)';
+
+    // selectors per slide — usati per pre-nascondere e poi animare
+    const TARGETS: Record<number, string[]> = {
+      0: ['.home-h', '.home-p', '.home-ctas > *'],
+      1: ['.work-eyebrow', '.work-h', '.work-p'],
+      2: ['.mission-h', '.mission-p', '.industries li', '.mission-ctas > *'],
+      3: ['.svc-eyebrow', '.svc-item'],
+      4: ['.contact-eyebrow', '.contact-h', '.contact-sub', '.contact-ctas > *', '.contact-info-item'],
+    };
+
+    // Pre-nascondi subito tutti gli elementi di tutte le slide
+    for (let s = 0; s < 5; s++) {
+      const panel = document.querySelector(`.panel[data-idx="${s}"]`);
+      if (!panel) continue;
+      TARGETS[s].forEach(sel => gsap.set(panel.querySelectorAll(sel), { opacity: 0, y: 0, x: 0 }));
+    }
+
+    const played = new Set<number>();
+    const timelines: (gsap.core.Timeline | null)[] = [null, null, null, null, null];
+
+    function buildAndPlay(idx: number) {
+      const panel = document.querySelector(`.panel[data-idx="${idx}"]`);
+      if (!panel) return;
+      const tl = gsap.timeline({ defaults: { ease: EASE_FADE } });
+
+      if (idx === 0) {
+        tl.fromTo(panel.querySelector('.home-h'), { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.85, ease: EASE_TITLE })
+          .fromTo(panel.querySelector('.home-p'), { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: EASE_FADE }, '-=0.5')
+          .fromTo(panel.querySelectorAll('.home-ctas > *'), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.55, stagger: 0.12, ease: EASE_CARD }, '-=0.4');
+      } else if (idx === 1) {
+        tl.fromTo(panel.querySelector('.work-eyebrow'), { x: -18, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5 })
+          .fromTo(panel.querySelector('.work-h'), { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: EASE_TITLE }, '-=0.25')
+          .fromTo(panel.querySelector('.work-p'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.65 }, '-=0.55');
+      } else if (idx === 2) {
+        tl.fromTo(panel.querySelector('.mission-h'), { x: -36, opacity: 0 }, { x: 0, opacity: 1, duration: 1.0, ease: EASE_TITLE })
+          .fromTo(panel.querySelector('.mission-p'), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.6')
+          .fromTo(panel.querySelectorAll('.industries li'), { x: -14, opacity: 0 }, { x: 0, opacity: 1, duration: 0.45, stagger: 0.08, ease: EASE_CARD }, '-=0.45')
+          .fromTo(panel.querySelectorAll('.mission-ctas > *'), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.1, ease: EASE_CARD }, '-=0.2');
+      } else if (idx === 3) {
+        tl.fromTo(panel.querySelector('.svc-eyebrow'), { x: -18, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5 })
+          .fromTo(panel.querySelectorAll('.svc-item'), { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: { amount: 0.4, from: 'start' }, ease: EASE_CARD }, '-=0.2');
+      } else if (idx === 4) {
+        tl.fromTo(panel.querySelector('.contact-eyebrow'), { x: -18, opacity: 0 }, { x: 0, opacity: 1, duration: 0.5 })
+          .fromTo(panel.querySelector('.contact-h'), { y: 44, opacity: 0 }, { y: 0, opacity: 1, duration: 0.9, ease: EASE_TITLE }, '-=0.25')
+          .fromTo(panel.querySelector('.contact-sub'), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6 }, '-=0.55')
+          .fromTo(panel.querySelectorAll('.contact-ctas > *'), { y: 12, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.1, ease: EASE_CARD }, '-=0.4')
+          .fromTo(panel.querySelectorAll('.contact-info-item'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.09, ease: EASE_CARD }, '-=0.3');
+      }
+      timelines[idx] = tl;
+    }
+
+    function playSection(idx: number) {
+      if (played.has(idx)) return;
+      played.add(idx);
+      buildAndPlay(idx);
+    }
+
+    onSectionEnter = playSection;
+
     updateBookmarks(0); updateProgress(0);
+    setTimeout(() => playSection(0), 80);
 
     return () => {
+      timelines.forEach(tl => tl?.kill());
+      gsap.killTweensOf('*');
       fluidHandle?.cleanup();
       if(scrollRafId) cancelAnimationFrame(scrollRafId);
       if(snapTimer) clearTimeout(snapTimer);
@@ -191,7 +259,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
         </svg>
       </div>
 
-      <header className="site-header"><span className="logo">Plasive</span></header>
+      <header className="site-header"><span className="logo">Plasive.</span></header>
 
       <nav className="bookmarks" id="bookmarks">
         <div className="bookmark active" data-idx="0"><span className="bm-label">Home</span><span className="bm-num">01</span></div>
@@ -222,7 +290,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
 
       <div className="summary-overlay" id="summary-overlay">
         <div className="so-header">
-          <span className="logo so-logo">Plasive</span>
+          <span className="logo so-logo">Plasive.</span>
           <button className="so-close" id="summary-close">Close</button>
         </div>
         <nav className="so-nav">
@@ -233,11 +301,22 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
           <a href="#" className="so-link" data-target="4">Let&apos;s Talk</a>
         </nav>
         <div className="so-footer">
-          <div className="so-tagline">{c?.companyName ?? 'Plasive Technologies S.r.l.'}</div>
-          <div className="so-address">{c?.address ?? 'Via Cesare Battisti 26'}<br />{c?.city ?? '40123 Bologna, Italy'}</div>
+          <div>
+            <div className="so-footer-label">Company</div>
+            <div className="so-tagline">{c?.companyName ?? 'Plasive Technologies S.r.l.'}</div>
+          </div>
+          <div>
+            <div className="so-footer-label">Address</div>
+            <div className="so-address">{c?.address ?? 'Via Cesare Battisti 26'}<br />{c?.city ?? '40123 Bologna, Italy'}</div>
+          </div>
+          <div>
+            <div className="so-footer-label">Tax ID</div>
+            <div className="so-tagline">{c?.taxId ?? '03736701206'}</div>
+          </div>
           <div className="so-links">
-            <a href={`mailto:${c?.email ?? 'info@plasive.tech'}`}>Contact</a>
-            <a href={c?.linkedinUrl ?? 'https://www.linkedin.com/company/plasivetech'} target="_blank" rel="noopener">Linkedin</a>
+            <div className="so-footer-label">Links</div>
+            <a href={`mailto:${c?.email ?? 'info@plasive.tech'}`}>Contact →</a>
+            <a href={c?.linkedinUrl ?? 'https://www.linkedin.com/company/plasivetech'} target="_blank" rel="noopener">LinkedIn →</a>
           </div>
         </div>
       </div>
@@ -249,7 +328,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
           <section className="panel panel-home" data-idx="0">
             <div className="panel-content">
               <h1 className="home-h" id="home-title">{c?.homeTitle ?? 'Plasive Tech.'}</h1>
-              <p className="home-p" id="home-subtitle">{c?.homeSubtitle ?? 'We craft technologies that helps you to safely play with data, discover insights, and do the right thing.'}</p>
+              <p className="home-p" id="home-subtitle">{c?.homeSubtitle ?? 'We craft technologies that helps you to safely play with data, discover\ninsights, and do the right thing.'}</p>
               <div className="home-ctas">
                 <a href="mailto:info@plasive.tech" className="cta-primary">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.08 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
@@ -265,7 +344,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
             <div className="panel-content">
               <p className="work-eyebrow" id="work-eyebrow">{c?.rdEyebrow ?? 'Research & Development'}</p>
               <h2 className="work-h" id="work-title">{c?.rdTitle ?? "From project management to analytics, we're shaping the future of data."}</h2>
-              <p className="work-p" id="work-subtitle">{c?.rdSubtitle ?? 'Research and development for data-heavy, regulated environments. We design, build, and operate systems you can trust.'}</p>
+              <p className="work-p" id="work-subtitle">{c?.rdSubtitle ?? 'Plasive Technologies is a Bologna-based R&D company specializing in software for data-intensive, regulated environments — designing, building, and operating systems where reliability, compliance, and trust are non-negotiable.'}</p>
             </div>
           </section>
 
@@ -274,10 +353,10 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
             <div className="panel-content">
               <div className="mission-row">
                 <h2 className="mission-h" id="mission-title">
-                  {c?.missionTitle ?? <>Build resilient,<br />privacy-first<br />data products.</>}
+                  {c?.missionTitle ?? 'Governance, cloud architecture, and security engineering delivered with measurable outcomes.'}
                 </h2>
                 <div className="mission-side">
-                  <p className="mission-p" id="mission-subtitle">{c?.missionSubtitle ?? 'Governance, cloud architecture, and security engineering delivered with measurable outcomes.'}</p>
+                  <p className="mission-p" id="mission-subtitle">{c?.missionSubtitle ?? 'Privacy-first by design, compliant by default.'}</p>
                   <ul className="industries" id="industries-list">
                     {(c?.industries ?? ['Agroforestry & Foodchain','Legal & Privacy','Healthcare & Digital Signature','Streaming & VOD']).map((ind, i) => (
                       <li key={i}>{ind}</li>
@@ -295,7 +374,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
           {/* 04 SERVICES */}
           <section className="panel panel-services" data-idx="3">
             <div className="panel-content">
-              <p className="svc-eyebrow" id="svc-eyebrow">{c?.servicesEyebrow ?? 'Research & Development'}</p>
+              <p className="svc-eyebrow" id="svc-eyebrow">{c?.servicesEyebrow ?? 'Services'}</p>
               <div className="svc-grid">
                 {(c?.services ?? [
                   {_key:'analytics',title:'Data Analytics',description:'Harness the power of analysis to derive actionable insights from your data.'},
@@ -329,7 +408,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
                 </p>
                 <div className="contact-ctas">
                   <a href="mailto:info@plasive.tech" className="cta-primary">Book a call →</a>
-                  <a href="#" className="cta-ghost">View industries</a>
+                  <a href="/industries" className="cta-ghost">View industries</a>
                 </div>
               </div>
               <div className="contact-info" id="contact-info">
