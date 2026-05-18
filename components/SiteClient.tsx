@@ -320,7 +320,9 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
               <div className="contact-main">
                 <p className="contact-eyebrow" id="contact-eyebrow">{c?.contactEyebrow ?? "Let's Talk"}</p>
                 <h2 className="contact-h" id="contact-title">{c?.contactTitle ?? 'Build resilient, privacy-first data products.'}</h2>
-                <p className="contact-sub" id="contact-subtitle">{c?.contactSubtitle ?? 'Governance, cloud architecture, and security engineering delivered with measurable outcomes.'}</p>
+                <p className="contact-sub" id="contact-subtitle">
+                  {c?.contactSubtitle ?? <>Governance, cloud architecture, and security engineering<br />delivered with measurable outcomes.</>}
+                </p>
                 <div className="contact-ctas">
                   <a href="mailto:info@plasive.tech" className="cta-primary">Book a call →</a>
                   <a href="#" className="cta-ghost">View industries</a>
