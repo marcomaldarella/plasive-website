@@ -583,7 +583,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const shared: SharedState = { currentX: 0 };
-  const fluid = setupFluid(shared);
+  let fluid: FluidRenderer | null = null;
+  try { fluid = setupFluid(shared); } catch { /* WebGL not available */ }
 
   // Fetch Sanity content and hydrate DOM
   void fetchContent().then(hydrateContent);
