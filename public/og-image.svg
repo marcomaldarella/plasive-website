@@ -1,0 +1,8 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'>
+  <rect width='1200' height='630' fill='#08080c'/>
+  <circle cx='120' cy='315' r='38' fill='#3080ff'/>
+  <circle cx='120' cy='315' r='17' fill='#eaf4ff'/>
+  <text x='180' y='295' font-family='sans-serif' font-size='64' font-weight='700' fill='#eaf4ff'>PLASIVE</text>
+  <text x='180' y='355' font-family='sans-serif' font-size='24' font-weight='300' fill='#7a9cc0'>Privacy-First Data &amp; Cloud Engineering</text>
+  <text x='180' y='400' font-family='sans-serif' font-size='18' fill='#3d5a7a'>Bologna, Italy · plasive.tech</text>
+</svg>
