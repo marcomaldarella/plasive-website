@@ -113,11 +113,11 @@ body.light::after { opacity: 0; }
 .bookmarks {
   position: fixed;
   left: 22px;
-  top: 50%;
-  transform: translateY(-50%);
+  top: 14px;
+  transform: none;
   display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  flex-direction: row;
+  align-items: center;
   gap: 0;
   z-index: 60;
   background: var(--glass-bg);
@@ -125,19 +125,19 @@ body.light::after { opacity: 0; }
   -webkit-backdrop-filter: var(--blur);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 6px 8px;
-  min-width: 110px;
+  padding: 7px 12px;
+  min-width: 0;
 }
 
 .bookmark {
-  display: flex;
+  display: none;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   gap: 10px;
   opacity: 0.28;
   cursor: pointer;
-  padding: 7px 6px;
+  padding: 3px 2px;
   border-radius: 7px;
   transition: opacity 0.45s var(--ease), background 0.2s;
   position: relative;
@@ -148,17 +148,25 @@ body.light::after { opacity: 0; }
   background: rgba(80, 140, 200, 0.08);
 }
 
-.bookmark.active  {
+.bookmark.active {
+  display: flex;
   opacity: 1;
   background: rgba(48, 128, 255, 0.10);
+  animation: bm-in 0.28s var(--ease) both;
 }
 .bookmark.visited { opacity: 0.42; }
 
-/* Blue dot on the right edge of active item */
+@keyframes bm-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Dot on the left edge of active item */
 .bookmark.active::after {
   content: '';
   position: absolute;
-  right: -5px;
+  left: -5px;
+  right: auto;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
@@ -898,41 +906,8 @@ body.scroll-v .bookmark.active::after {
   .site-footer  { right: 12px; bottom: 12px; padding: 6px 10px; gap: 4px; }
   .footer-link  { font-size: 11px; padding: 3px 5px; }
 
-  /* ── Bookmarks: top-left pill, aligned with header ── */
-  .bookmarks {
-    left: 12px;
-    top: 14px;
-    bottom: auto;
-    transform: none;
-    flex-direction: row;
-    align-items: center;
-    padding: 7px 12px;
-    min-width: 0;
-    gap: 0;
-  }
-
-  /* Hide all non-active bookmarks */
-  .bookmark { display: none; padding: 3px 2px; }
-
-  /* Show only the active one */
-  .bookmark.active {
-    display: flex;
-    padding: 3px 2px;
-    animation: bm-in 0.28s var(--ease) both;
-  }
-
-  @keyframes bm-in {
-    from { opacity: 0; transform: translateX(-6px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
-  .bookmark.active::after {
-    right: auto;
-    left: -5px;
-    top: 50%;
-    bottom: auto;
-    transform: translateY(-50%);
-  }
+  /* ── Bookmarks: mobile adjustments only ── */
+  .bookmarks { left: 12px; }
 
   /* ── Panel content: full-width, centred ── */
   .panel-home .panel-content,
