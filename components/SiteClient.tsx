@@ -204,6 +204,8 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
       <div className="site-footer">
         <a href="/privacy" className="footer-link">Privacy</a>
         <span className="footer-divider" />
+        <a href="/industries" className="footer-link">Industries</a>
+        <span className="footer-divider" />
         <a href="mailto:info@plasive.tech" className="footer-link">Contact</a>
         <span className="footer-divider" />
         <button className="footer-link" id="summary-toggle">Summary</button>
@@ -253,7 +255,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.81 19.79 19.79 0 01.08 2.18 2 2 0 012.06 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
                   Book a call
                 </a>
-                <a href="#" className="cta-secondary">View industries →</a>
+                <a href="/industries" className="cta-secondary">View industries →</a>
               </div>
             </div>
           </section>
@@ -283,7 +285,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
                   </ul>
                   <div className="mission-ctas">
                     <a href="mailto:info@plasive.tech" className="cta-primary">Book a call →</a>
-                    <a href="#" className="cta-ghost">View industries</a>
+                    <a href="/industries" className="cta-ghost">View industries</a>
                   </div>
                 </div>
               </div>
