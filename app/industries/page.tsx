@@ -90,8 +90,10 @@ export default function IndustriesPage() {
           min-height: 100vh;
           background: var(--bg);
           font-family: var(--font);
-          padding-top: 88px;
-          padding-bottom: 60px;
+          padding-top: 80px;
+          padding-bottom: 80px;
+          display: flex;
+          align-items: center;
         }
 
         /* ── Left pill: back + breadcrumb ── */
@@ -122,11 +124,37 @@ export default function IndustriesPage() {
         .ind-back svg { opacity: 0.6; }
         .ind-breadcrumb-sep { width: 1px; height: 10px; background: var(--border); }
 
+        /* ── Ambient globs — same as home ── */
+        .ind-page::before,
+        .ind-page::after {
+          content: '';
+          position: fixed;
+          width: 560px;
+          height: 560px;
+          border-radius: 50%;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .ind-page::before {
+          top: -180px;
+          right: -130px;
+          background: radial-gradient(circle, rgba(48,128,255,0.14) 0%, transparent 68%);
+          filter: blur(60px);
+        }
+        .ind-page::after {
+          bottom: -180px;
+          left: -130px;
+          background: radial-gradient(circle, rgba(172,75,255,0.12) 0%, transparent 68%);
+          filter: blur(60px);
+        }
+
         /* ── Main content ── */
         .ind-main {
-          max-width: 1200px;
+          max-width: 1100px;
           margin: 0 auto;
           padding: 0 24px;
+          position: relative;
+          z-index: 1;
         }
 
         .ind-grid {
@@ -200,10 +228,30 @@ export default function IndustriesPage() {
           opacity: 0.75;
         }
 
+        .ind-back-btn {
+          position: fixed;
+          bottom: 24px;
+          left: 22px;
+          z-index: 60;
+          display: flex;
+          align-items: center;
+          gap: 7px;
+          font-family: var(--font);
+          font-size: 11px;
+          font-weight: 400;
+          color: var(--text-m);
+          text-decoration: none;
+          letter-spacing: 0.02em;
+          transition: color 0.2s;
+        }
+        .ind-back-btn:hover { color: var(--text); }
+        .ind-back-btn svg { opacity: 0.6; }
+
         @media (max-width: 768px) {
           .ind-page { padding-top: 72px; }
           .ind-main { padding: 0 14px; }
           .ind-back { left: 14px; }
+          .ind-back-btn { left: 14px; bottom: 18px; }
           .ind-grid { grid-template-columns: 1fr; gap: 10px; }
           .ind-card { padding: 20px; }
           .ind-features { grid-template-columns: 1fr; }
@@ -224,6 +272,14 @@ export default function IndustriesPage() {
           Contact Us
         </a>
       </header>
+
+      {/* Bottom-left back button */}
+      <Link href="/" className="ind-back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M19 12H5M5 12l7-7M5 12l7 7"/>
+        </svg>
+        Back
+      </Link>
 
       <div className="ind-page">
         <main className="ind-main">
