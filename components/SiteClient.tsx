@@ -191,7 +191,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
         </svg>
       </div>
 
-      <header className="site-header"><span className="logo">PLASIVE</span></header>
+      <header className="site-header"><span className="logo">Plasive</span></header>
 
       <nav className="bookmarks" id="bookmarks">
         <div className="bookmark active" data-idx="0"><span className="bm-label">Home</span><span className="bm-num">01</span></div>
@@ -220,7 +220,7 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
 
       <div className="summary-overlay" id="summary-overlay">
         <div className="so-header">
-          <span className="logo so-logo">PLASIVE</span>
+          <span className="logo so-logo">Plasive</span>
           <button className="so-close" id="summary-close">Close</button>
         </div>
         <nav className="so-nav">
@@ -271,7 +271,9 @@ export default function SiteClient({ content }: { content: HomepageContent | nul
           <section className="panel panel-mission" data-idx="2">
             <div className="panel-content">
               <div className="mission-row">
-                <h2 className="mission-h" id="mission-title">{c?.missionTitle ?? 'Build resilient, privacy-first data products.'}</h2>
+                <h2 className="mission-h" id="mission-title">
+                  {c?.missionTitle ?? <>Build resilient,<br />privacy-first<br />data products.</>}
+                </h2>
                 <div className="mission-side">
                   <p className="mission-p" id="mission-subtitle">{c?.missionSubtitle ?? 'Governance, cloud architecture, and security engineering delivered with measurable outcomes.'}</p>
                   <ul className="industries" id="industries-list">

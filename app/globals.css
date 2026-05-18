@@ -105,7 +105,6 @@ body.light::after { opacity: 0; }
   font-weight: 500;
   letter-spacing: 0.26em;
   color: var(--text);
-  text-transform: uppercase;
   transition: color 0.4s;
 }
 
@@ -903,7 +902,7 @@ body.scroll-v .bookmark.active::after {
 
   /* Header / footer compact */
   .site-header { top: 14px; right: 12px; padding: 7px 14px; }
-  .site-footer  { right: 12px; bottom: 12px; padding: 6px 10px; gap: 4px; }
+  .site-footer  { right: 50%; transform: translateX(50%); bottom: 12px; padding: 6px 10px; gap: 4px; }
   .footer-link  { font-size: 11px; padding: 3px 5px; }
 
   /* ── Bookmarks: mobile adjustments only ── */
