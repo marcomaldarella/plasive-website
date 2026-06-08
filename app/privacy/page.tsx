@@ -15,7 +15,7 @@ export default function PrivacyPage() {
         html{scroll-behavior:smooth;}
         body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;}
         body::before{content:'';position:fixed;top:-180px;right:-130px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(48,128,255,0.10) 0%,transparent 68%);filter:blur(60px);pointer-events:none;z-index:0;}
-        .pp-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 6vw;background:rgba(8,8,12,0.80);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--border);}
+        .pp-header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 6vw;background:rgba(8,8,12,0.80);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--border);}
         .logo{font-size:11.5px;font-weight:500;letter-spacing:0.26em;color:var(--text);text-transform:uppercase;text-decoration:none;}
         .pp-back{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:400;color:var(--text-m);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:8px;background:var(--glass-bg);backdrop-filter:var(--blur);transition:color 0.2s,border-color 0.2s;}
         .pp-back:hover{color:var(--text);border-color:rgba(80,140,200,0.30);}
