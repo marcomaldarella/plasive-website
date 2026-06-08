@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         .logo{font-size:11.5px;font-weight:500;letter-spacing:0.26em;color:var(--text);text-transform:uppercase;text-decoration:none;}
         .pp-back{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:400;color:var(--text-m);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:8px;background:var(--glass-bg);backdrop-filter:var(--blur);transition:color 0.2s,border-color 0.2s;}
         .pp-back:hover{color:var(--text);border-color:rgba(80,140,200,0.30);}
-        .pp-wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:64px 6vw 96px;}
+        .pp-wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:120px 6vw 96px;}
         .pp-eyebrow{font-size:10px;font-weight:500;color:var(--accent);letter-spacing:0.18em;text-transform:uppercase;margin-bottom:18px;display:block;}
         .pp-title{font-size:clamp(28px,5vw,52px);font-weight:300;color:var(--text);line-height:1.10;letter-spacing:-0.016em;margin-bottom:12px;}
         .pp-date{font-size:11px;font-weight:300;color:var(--text-xs);margin-bottom:56px;letter-spacing:0.04em;}
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
         .pp-footer{border-top:1px solid var(--border);margin-top:64px;padding:28px 6vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
         .pp-footer-text{font-size:11px;font-weight:300;color:var(--text-xs);}
         .pp-footer a{font-size:11px;font-weight:400;color:var(--accent);text-decoration:none;}
-        @media(max-width:600px){.pp-wrap{padding:40px 5vw 72px;}.pp-toc{padding:16px 18px;}}
+        @media(max-width:600px){.pp-wrap{padding:100px 5vw 72px;}.pp-toc{padding:16px 18px;}}
       `}</style>
 
       <link rel="preconnect" href="https://fonts.googleapis.com" />
