@@ -11,7 +11,7 @@
   --text:        #eaf4ff;        /* near-white, slight blue tint  */
   --text-m:      #7aabcc;        /* mid steel-blue                */
   --text-xs:     #3a6480;        /* dark steel-blue               */
-  --summary-bg:  rgba(6, 10, 18, 0.92);
+  --summary-bg:  rgb(6, 10, 18);
   --border:      rgba(80, 140, 200, 0.13);
   --border-h:    rgba(80, 140, 200, 0.28);   /* hover */
   --glass-bg:    rgba(8, 14, 24, 0.62);
@@ -29,7 +29,7 @@ body.light {
   --text:       #0d1a26;
   --text-m:     #2a3f52;
   --text-xs:    #4a6070;
-  --summary-bg: rgba(8, 18, 30, 0.96);
+  --summary-bg: rgb(8, 18, 30);
   --border:     rgba(50, 80, 110, 0.18);
   --border-h:   rgba(50, 80, 110, 0.36);
   --glass-bg:   rgba(255, 255, 255, 0.55);
