@@ -11,6 +11,7 @@ export default function PrivacyPage() {
       <style>{`
         :root{--bg:#08080c;--text:#eaf4ff;--text-m:#7aabcc;--text-xs:#3a6480;--border:rgba(80,140,200,0.13);--accent:#3080ff;--glass-bg:rgba(8,14,24,0.62);--blur:blur(18px) saturate(1.5);--font:'Outfit',sans-serif;}
         *{margin:0;padding:0;box-sizing:border-box;}
+        html,body{overflow:auto !important;height:auto !important;}
         html{scroll-behavior:smooth;}
         body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;}
         body::before{content:'';position:fixed;top:-180px;right:-130px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(48,128,255,0.10) 0%,transparent 68%);filter:blur(60px);pointer-events:none;z-index:0;}
