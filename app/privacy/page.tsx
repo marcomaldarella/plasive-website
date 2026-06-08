@@ -16,7 +16,7 @@ export default function PrivacyPage() {
         body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;}
         body::before{content:'';position:fixed;top:-180px;right:-130px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(48,128,255,0.10) 0%,transparent 68%);filter:blur(60px);pointer-events:none;z-index:0;}
         .pp-header{position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 6vw;background:rgba(8,8,12,0.80);backdrop-filter:var(--blur);-webkit-backdrop-filter:var(--blur);border-bottom:1px solid var(--border);}
-        .logo{font-size:11.5px;font-weight:500;letter-spacing:0.26em;color:var(--text);text-transform:uppercase;text-decoration:none;}
+        .logo{font-size:11.5px;font-weight:500;letter-spacing:0.06em;color:var(--text);text-decoration:none;}
         .pp-back{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:400;color:var(--text-m);text-decoration:none;padding:6px 14px;border:1px solid var(--border);border-radius:8px;background:var(--glass-bg);backdrop-filter:var(--blur);transition:color 0.2s,border-color 0.2s;}
         .pp-back:hover{color:var(--text);border-color:rgba(80,140,200,0.30);}
         .pp-wrap{position:relative;z-index:1;max-width:720px;margin:0 auto;padding:120px 6vw 96px;}
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
       <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet" />
 
       <header className="pp-header">
-        <Link href="/" className="logo">PLASIVE</Link>
+        <Link href="/" className="logo">Plasive.</Link>
         <Link href="/" className="pp-back">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
           Torna al sito
