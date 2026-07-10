@@ -12,7 +12,7 @@ const QUERY = `*[_type == "homepage"][0]{
 
 export async function fetchContent(): Promise<HomepageContent | null> {
   try {
-    return await client.fetch<HomepageContent>(QUERY, {}, { next: { revalidate: 60 } });
+    return await client.fetch<HomepageContent>(QUERY);
   } catch {
     return null;
   }
